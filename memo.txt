@@ -1,0 +1,3 @@
+Livewire Datatable with Selectable Columns 👨‍💻 [BEGINNER TUTORIAL]
+
+https://www.youtube.com/watch?v=9Q9wzm_8Dlg
