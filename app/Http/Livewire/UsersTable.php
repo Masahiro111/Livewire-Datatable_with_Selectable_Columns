@@ -10,12 +10,23 @@ class UsersTable extends Component
 {
     use WithPagination;
 
+    public $search = '';
+    public $perPage = 25;
+    public $sortField = 'id';
+    public $sortAsc = true;
+    public $selected = [];
+
+    public function deleteUsers()
+    {
+        User::destroy($this->selected);
+    }
+
     public function render()
     {
         return view('livewire.users-table', [
-            'users' => User::search('')
-                ->orderBy('created_at', 'desc')
-                ->simplePaginate(10),
+            'users' => User::search($this->search)
+                ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
+                ->simplePaginate($this->perPage),
         ]);
     }
 }

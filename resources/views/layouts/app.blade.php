@@ -12,10 +12,10 @@
 
 <body>
 
-    <div class="container mx-auto">
+    <div class="container mx-auto md:px-12">
         <h1 class="text-3xl text-center my-10">User1</h1>
     </div>
-    <div class="container max-auto">
+    <div class="container mx-auto md:px-12">
         {{ $slot }}
     </div>
 
