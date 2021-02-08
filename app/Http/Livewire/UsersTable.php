@@ -11,15 +11,13 @@ class UsersTable extends Component
     use WithPagination;
 
     public $search = '';
-    public $perPage = 10;
+    public $perPage = 25;
     public $sortField = 'id';
     public $sortAsc = true;
     public $selected = [];
 
-
     public function deleteUsers()
     {
-        // dd($this->selected);
         User::destroy($this->selected);
     }
 
