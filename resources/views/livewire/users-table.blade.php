@@ -1,101 +1,10 @@
-Livewire Datatable with Selectable Columns 👨‍💻 [BEGINNER TUTORIAL]
-
-https://www.youtube.com/watch?v=9Q9wzm_8Dlg
-
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Users</title>
-    <link rel="stylesheet" href="tailwind.min.css">
-
-</head>
-
-<body>
-
-    <div class="container mx-auto md:px-12">
-        <h1 class="text-3xl text-center my-10">User1</h1>
-    </div>
-    <div class="container mx-auto md:px-12">
-        {{ $slot }}
-    </div>
-
-    @livewireScripts
-</body>
-
-</html>
-
-------------------------------
-
-<?php
-
-namespace App\Models;
-
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-
-class User extends Authenticatable
-{
-    use HasFactory, Notifiable;
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
-
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
-
-    public static function search($search)
-    {
-        return empty($search) ? static::query()
-            : static::where('id', 'like', '%' . $search . '%')
-            ->orWhere('name', 'like', '%' . $search . '%')
-            ->orWhere('email', 'like', '%' . $search . '%');
-    }
-}
-
-
--------------------------------------
-
-
-<div>
+<div class="mb-12">
     <div class="w-full flex pb-10">
         <div class="w-3/6 mx-1">
-            <input wire:model.debounce.300ms="search" type="text"
-                class="appearance-none block w-full bg-gray-200 
+            <input wire:model.debounce.300ms="search" type="text" class="appearance-none block w-full bg-gray-200 
                 text-gray-700 border border-gray-200 rounded py-3 
                 px-4 leading-tight focus:outline-none 
-                focus:bg-white focus:border-gray-500"
-                placeholder="Search users...">
+                focus:bg-white focus:border-gray-500" placeholder="Search users...">
         </div>
         <div class="w-1/6 relative mx-1">
             <select wire:model="sortField"
@@ -158,38 +67,3 @@ class User extends Authenticatable
     <p class="text-center">Whoops! No users were found 🙁</p>
     @endif
 </div>
-
----------------
-
-<?php
-
-namespace App\Http\Livewire;
-
-use App\Models\User;
-use Livewire\Component;
-use Livewire\WithPagination;
-
-class UsersTable extends Component
-{
-    use WithPagination;
-
-    public $search = '';
-    public $perPage = 25;
-    public $sortField = 'id';
-    public $sortAsc = true;
-    public $selected = [];
-
-    public function deleteUsers()
-    {
-        User::destroy($this->selected);
-    }
-
-    public function render()
-    {
-        return view('livewire.users-table', [
-            'users' => User::search($this->search)
-                ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
-                ->simplePaginate($this->perPage),
-        ]);
-    }
-}
