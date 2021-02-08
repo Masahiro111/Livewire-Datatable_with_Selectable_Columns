@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
@@ -26,11 +27,12 @@
 </head>
 
 <body>
-    <div class="container mx-auto">
-        <h1 class="text-3xl text-center my-10">Users</h1>
+    <div class="container mx-auto md:px-10">
+        <h1 class="text-3xl text-center my-10">User1</h1>
     </div>
 
-    <div class="container mx-auto">
+    <div class="container mx-auto md:px-12">
+
         {{ $slot }}
     </div>
 
